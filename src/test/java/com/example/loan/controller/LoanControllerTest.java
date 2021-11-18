@@ -100,7 +100,7 @@ public class LoanControllerTest {
 
         TogetherLenderEntity togetherLenderEntity = new TogetherLenderEntity();
         togetherLenderEntity.setIdCard("111111111");
-        togetherLenderEntity.setName("xxxx");
+        togetherLenderEntity.setName("小吴");
         togetherLenderEntity.setIncome(BigDecimal.valueOf(10000));
         togetherLenderEntity.setLoanPlanMaterialId(entity.getId());
         togetherLenderEntityMapper.insert(togetherLenderEntity);
@@ -121,19 +121,6 @@ public class LoanControllerTest {
         check(idCard, 30, "false", "男性_年龄_加_贷款年限_不能超过65");
     }
 
-    @Test
-    public void 女性_年龄__贷款年限_总和_小于等于60_贷款成功() throws Exception {
-        String idCard = "1112";
-        givenLoanPlanMaterialData(idCard, FEMALE, 30, 0);
-        check(idCard, 30, "true", "女性_年龄__贷款年限_总和_小于等于60");
-    }
-
-    @Test
-    public void 女性_年龄_贷款年限_总和_大于60_贷款失败() throws Exception {
-        String idCard = "1113";
-        givenLoanPlanMaterialData(idCard, FEMALE, 31, 0);
-        check(idCard, 30, "false", "女性_年龄_贷款年限_总和_大于60");
-    }
 
     private void check(String idCard, Integer loanTerm, String returnCode, String returnMessage) throws Exception {
         String result = mockMvc.perform(

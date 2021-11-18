@@ -1,6 +1,7 @@
 package com.example.loan.controller;
 
 import com.example.loan.LoanServerApplication;
+import com.example.loan.bo.Gender;
 import com.example.loan.mapper.HouseMaterialMapper;
 import com.example.loan.mapper.TogetherLenderMapper;
 import com.example.loan.mapper.UserLoanPlanMaterialMapper;
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static com.example.loan.bo.Gender.MALE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,6 +78,7 @@ public class LoanControllerTest {
         JSONAssert.assertEquals(expected, result, comparator);
     }
 
+
     private void givenLoanPlanMaterialData(String idCard) {
         UserLoanPlanMaterialEntity entity = new UserLoanPlanMaterialEntity();
         entity.setGender(MALE);
@@ -100,5 +103,26 @@ public class LoanControllerTest {
         togetherLenderEntity.setLoanPlanMaterialId(entity.getId());
         togetherLenderEntityMapper.insert(togetherLenderEntity);
     }
+
+    @Test
+    public void 男性_年龄__贷款年限_总和_小于等于65_贷款成功() throws Exception {
+
+    }
+
+    @Test
+    public void 男性_年龄_贷款年限_总和_大于65_贷款失败() throws Exception {
+
+    }
+    @Test
+    public void 女性_年龄__贷款年限_总和_小于等于60_贷款成功() throws Exception {
+
+    }
+
+    @Test
+    public void 女性_年龄_贷款年限_总和_大于60_贷款失败() throws Exception {
+
+    }
+
+
 
 }

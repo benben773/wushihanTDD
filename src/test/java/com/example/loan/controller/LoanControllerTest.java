@@ -29,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static com.example.loan.bo.Gender.FEMALE;
 import static com.example.loan.bo.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = LoanServerApplication.class)
 @Transactional(rollbackFor = TransactionException.class)
 public class LoanControllerTest {
+
 
     MockMvc mockMvc;
     @Autowired
@@ -62,7 +64,7 @@ public class LoanControllerTest {
     @Test
     public void should_get_userLoanPlan_success() throws Exception {
         String idCard = "412233333333";
-        givenLoanPlanMaterialData(idCard);
+        givenLoanPlanMaterialData(idCard, MALE, 35, 0);
         String result = mockMvc.perform(
                         get("/loan-plans/{idCard}", idCard))
                 .andExpect(status().isOk())
@@ -79,11 +81,11 @@ public class LoanControllerTest {
     }
 
 
-    private void givenLoanPlanMaterialData(String idCard) {
+    private void givenLoanPlanMaterialData(String idCard, Gender gender, int age, int houseAge) {
         UserLoanPlanMaterialEntity entity = new UserLoanPlanMaterialEntity();
-        entity.setGender(MALE);
+        entity.setGender(gender);
         entity.setIncome(BigDecimal.valueOf(10000));
-        entity.setLenderAge(35);
+        entity.setLenderAge(age);
         entity.setIdCard(idCard);
         entity.setName("王一");
         entity.setCreatedAt(LocalDateTime.now());
@@ -92,7 +94,7 @@ public class LoanControllerTest {
 
         HouseMaterialEntity houseMaterialEntity = new HouseMaterialEntity();
         houseMaterialEntity.setLoanPlanMaterialId(entity.getId());
-        houseMaterialEntity.setAge(0);
+        houseMaterialEntity.setAge(houseAge);
         houseMaterialEntity.setPrice(BigDecimal.valueOf(10000));
         houseMaterialMapper.insert(houseMaterialEntity);
 
@@ -115,21 +117,21 @@ public class LoanControllerTest {
     @Test
     public void 男性_年龄_贷款年限_总和_大于65_贷款失败() throws Exception {
         String idCard = "1112";
-        givenLoanPlanMaterialData(idCard, MALE, 36, 0);
+        givenLoanPlanMaterialData(idCard, FEMALE, 36, 0);
         check(idCard, 30, "false", "男性_年龄_加_贷款年限_不能超过65");
-    }
+    }s
     @Test
     public void 女性_年龄__贷款年限_总和_小于等于60_贷款成功() throws Exception {
         String idCard = "1112";
         givenLoanPlanMaterialData(idCard, FEMALE, 30, 0);
-        check(idCard, 30, "false", "男性_年龄_加_贷款年限_不能超过65");
+        check(idCard, 30, "true", "女性_年龄__贷款年限_总和_小于等于60");
     }
 
     @Test
     public void 女性_年龄_贷款年限_总和_大于60_贷款失败() throws Exception {
         String idCard = "1113";
         givenLoanPlanMaterialData(idCard, FEMALE, 31, 0);
-        check(idCard, 30, "false", "男性_年龄_加_贷款年限_不能超过65");
+        check(idCard, 30, "false", "女性_年龄_贷款年限_总和_大于60");
     }
 
     private void check(String idCard, Integer loanTerm, String returnCode, String returnMessage) throws Exception {

@@ -24,9 +24,12 @@ public class UserLoanPlanMaterial {
     private Integer lenderAge;
 
     private TogetherLender togetherLender;
-    private HouseMaterial houseMaterial;
+    private House house;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public Integer getHouseMaterialAge() {
+        return this.getHouse().getAge();
+    }
 }

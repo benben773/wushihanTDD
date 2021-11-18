@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.loan.bo.Gender;
-import com.example.loan.bo.HouseMaterial;
+import com.example.loan.bo.House;
 import com.example.loan.bo.TogetherLender;
 import com.example.loan.bo.UserLoanPlanMaterial;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class UserLoanPlanMaterialEntity {
     private LocalDateTime updatedAt;
 
     public UserLoanPlanMaterial toBO(HouseMaterialEntity houseMaterialEntity, TogetherLenderEntity togetherLenderEntity) {
-        HouseMaterial houseMaterial = HouseMaterial.builder()
+        House house = House.builder()
                 .age(houseMaterialEntity.getAge())
                 .price(houseMaterialEntity.getPrice())
                 .build();
@@ -42,7 +42,7 @@ public class UserLoanPlanMaterialEntity {
                 .gender(gender)
                 .income(income)
                 .lenderAge(lenderAge)
-                .houseMaterial(houseMaterial)
+                .house(house)
                 .togetherLender(togetherLender)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)

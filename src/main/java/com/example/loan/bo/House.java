@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HouseMaterial {
+public class House {
     private Integer age;
     private BigDecimal price;
 }

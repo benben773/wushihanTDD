@@ -119,7 +119,8 @@ public class LoanControllerTest {
         String idCard = "1112";
         givenLoanPlanMaterialData(idCard, FEMALE, 36, 0);
         check(idCard, 30, "false", "男性_年龄_加_贷款年限_不能超过65");
-    }s
+    }
+
     @Test
     public void 女性_年龄__贷款年限_总和_小于等于60_贷款成功() throws Exception {
         String idCard = "1112";
